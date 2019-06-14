@@ -4,6 +4,8 @@ This repo covers the implementation for this paper:
 
 "Contrastive Multiview Coding" [Paper](http://arxiv.org/abs/1906.05849), [Project Page](http://hobbitlong.github.io/CMC/).
 
+![Teaser Image](http://hobbitlong.github.io/CMC/CMC_files/teaser.jpg)
+
 ## Installation
 
 This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0. But it should be runnable with recent PyTorch versions >=0.4.0
