@@ -6,6 +6,16 @@ This repo covers the implementation for this paper:
 
 ![Teaser Image](http://hobbitlong.github.io/CMC/CMC_files/teaser.jpg)
 
+## Highlight
+
+**(1) Representation quality as a function of number of contrasted views.** 
+
+Given a view that we want to learn representation from, we find that, the more we use other views to contrast with this view, the better the representation of this view is.
+
+**(2) Unsupervised v.s. Supervised**
+
+ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification. (60.1% v.s. 57.3%)
+
 ## Installation
 
 This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0. But it should be runnable with recent PyTorch versions >=0.4.0
