@@ -50,13 +50,13 @@ Therefore, an example of command line for evaluating, say `./models/ckpt.pth`, s
 ```
 CUDA_VISIBLE_DEVICES=0 python LinearProbing.py --data_folder path/to/data --save_path path/to/save --tb_path path/to/tensorboard --model_path ./models/ckpt.pth
 ```
-
+<!--
 ## Results
 **ImageNet**: we tabulate the top-1 accuracy (%) of linear probing for different networks trained with CMC on imagenet classification. We also include the supervised AlexNet accuracy for comparison.
-
 |          |Unpervised AlexNet | Unpervised ResNet-50 | Unpervised ResNet-101  | Supervised AlexNet |
 |----------|:----:|:---:|:---:|:---:|
 | Top-1 | 42.6 | 58.1 | 60.1  | 57.3|
+-->
 
 ## Citation
 
