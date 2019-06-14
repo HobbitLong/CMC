@@ -14,7 +14,7 @@ Given a view that we want to learn representation from, we find that, the more w
 
 **(2) Unsupervised v.s. Supervised**
 
-ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification. (60.1% v.s. 57.3%)
+ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 57.3%). For this first time on ImageNet classification, unsupervised method surpasses the classic supervised-AlexNet proposed in 2012.
 
 ## Installation
 
