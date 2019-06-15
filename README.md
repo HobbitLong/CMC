@@ -20,7 +20,7 @@ ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervise
 
 This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0. But it should be runnable with recent PyTorch versions >=0.4.0
 
-## Training Encoder with CMC
+## Training Encoder with CMC on ImageNet
 
 NCE flags:
 - `--nce_k`: number of negatives to contrast for each positive. Default: 4096
@@ -36,6 +36,8 @@ An example of command line for training CMC (Default: AlexNet on Single GPU)
 ```
 CUDA_VISIBLE_DEVICES=0 python train_CMC.py --data_folder path/to/data --model_path path/to/save --tb_path path/to/tensorboard
 ```
+
+By default, the training scripts will use L and ab as two views to contrast with each other. If you want to specify other image channels as different views, simply modifying [here](https://github.com/HobbitLong/CMC/blob/master/train_CMC.py#L97), 
 
 ## Training Linear Classifier
 
