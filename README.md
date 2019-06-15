@@ -6,7 +6,7 @@ This repo covers the implementation for this paper:
 
 ![Teaser Image](http://hobbitlong.github.io/CMC/CMC_files/teaser.jpg)
 
-## Highlight
+## Highlights
 
 **(1) Representation quality as a function of number of contrasted views.** 
 
