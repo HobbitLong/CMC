@@ -12,13 +12,13 @@ This repo covers the implementation for this paper:
 
 We found that, the more views we train with, the better the representation (of each single view).
 
-**(2) Unsupervised v.s. Supervised**
-
-ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
-
 **(2) Contrastive objective v.s. Predictive objective**
 
 We compare the contrastive objective to cross-viewprediction, finding an advantage to the contrastiveapproach.
+
+**(3) Unsupervised v.s. Supervised**
+
+ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
 
 ## Installation
 
