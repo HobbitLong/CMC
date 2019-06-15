@@ -10,11 +10,15 @@ This repo covers the implementation for this paper:
 
 **(1) Representation quality as a function of number of contrasted views.** 
 
-Given a view that we want to learn representation from, we find that, the more we use other views to contrast with this view, the better the representation of this view is.
+We found that, the more views we train with, the better the representation (of each single view).
 
 **(2) Unsupervised v.s. Supervised**
 
 ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
+
+**(2) Contrastive objective v.s. Predictive objective**
+
+We compare the contrastive objective to cross-viewprediction, finding an advantage to the contrastiveapproach.
 
 ## Installation
 
