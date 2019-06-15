@@ -14,7 +14,7 @@ We found that, the more views we train with, the better the representation (of e
 
 **(2) Contrastive objective v.s. Predictive objective**
 
-We compare the contrastive objective to cross-viewprediction, finding an advantage to the contrastiveapproach.
+We compare the contrastive objective to cross-view prediction, finding an advantage to the contrastive approach.
 
 **(3) Unsupervised v.s. Supervised**
 
