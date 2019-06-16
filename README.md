@@ -1,6 +1,6 @@
 ## Contrastive Multiview Coding
 
-This repo covers the implementation for CMC, which learns representations from multiview data in a self-supervised way (by multiview, we mean multiple sensory data or multiple modal data.):
+This repo covers the implementation for CMC, which learns representations from multiview data in a self-supervised way (by multiview, we mean multiple sensory, multiple modal data, or literally multiple viewpoint data. It's flexible to define what is a "view"):
 
 "Contrastive Multiview Coding" [Paper](http://arxiv.org/abs/1906.05849), [Project Page](http://hobbitlong.github.io/CMC/).
 
@@ -18,11 +18,13 @@ We compare the contrastive objective to cross-view prediction, finding an advant
 
 **(3) Unsupervised v.s. Supervised**
 
-ResNet-101 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
+ResNet-101 trained with our **unsupervised** CMC objective (only contrasting Luminance with Chrominance) surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
 
 ## Installation
 
 This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0. But it should be runnable with recent PyTorch versions >=0.4.0
+
+**Note:** It seems to us that training with Pytorch version >= 1.0 yields slightly worse results. If you find the similar discrepancy and figure out the problem, please report this since we are trying to fix it as well.
 
 ## Training Encoder with CMC on ImageNet
 
