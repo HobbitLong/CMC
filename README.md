@@ -1,6 +1,6 @@
 ## Contrastive Multiview Coding
 
-This repo covers the implementation for this paper:
+This repo covers the implementation for CMC, which learns representations from multiview data (by multiview, we mean multiple sensory data or multiple modal data.):
 
 "Contrastive Multiview Coding" [Paper](http://arxiv.org/abs/1906.05849), [Project Page](http://hobbitlong.github.io/CMC/).
 
