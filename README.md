@@ -18,7 +18,7 @@ We compare the contrastive objective to cross-view prediction, finding an advant
 
 **(3) Unsupervised v.s. Supervised**
 
-ResNet-101 trained with our **unsupervised** CMC objective (only contrasting Luminance with Chrominance) surpasses **supervisedly** trained AlexNet on ImageNet classification (60.1% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
+~~ResNet-101~~ ResNet-50 trained with our **unsupervised** CMC objective (only contrasting Luminance with Chrominance) surpasses **supervisedly** trained AlexNet on ImageNet classification ( ~~60.1%~~ 63.0% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
 
 ## Installation
 
