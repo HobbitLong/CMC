@@ -1,3 +1,5 @@
+Unfortunately, due to the rejection by ICCV'19, sorry that I have to delay the release of other features before we finalize the paper (in other words, get it published somewhere).
+
 ## Contrastive Multiview Coding
 
 This repo covers the implementation for CMC, which learns representations from multiview data in a self-supervised way (by multiview, we mean multiple sensory, multiple modal data, or literally multiple viewpoint data. It's flexible to define what is a "view"):
@@ -71,9 +73,9 @@ CUDA_VISIBLE_DEVICES=0 python LinearProbing.py --data_folder path/to/data --save
 If you find this repo useful for your research, please consider citing the paper
 
 ```
-@inproceedings{tian2019cmc,
+@article{tian2019contrastive,
   title={Contrastive Multiview Coding},
-  author={Yonglong Tian and Dilip Krishnan and Phillip Isola},
+  author={Tian, Yonglong and Krishnan, Dilip and Isola, Phillip},
   journal={arXiv preprint arXiv:1906.05849},
   year={2019}
 }
