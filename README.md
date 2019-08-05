@@ -1,4 +1,3 @@
-Unfortunately, due to the rejection by ICCV'19, sorry that I have to delay the release of other features before we finalize the paper (in other words, get it published somewhere).
 
 ## Contrastive Multiview Coding
 
