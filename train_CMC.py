@@ -61,7 +61,7 @@ def parse_option():
 
     opt = parser.parse_args()
 
-    if (opt.data_folder is None) or (opt.save_path is None) or (opt.tb_path is None):
+    if (opt.data_folder is None) or (opt.model_path is None) or (opt.tb_path is None):
         raise ValueError('one or more of the folders is None: data_folder | model_path | tb_path')
 
     iterations = opt.lr_decay_epochs.split(',')
