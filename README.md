@@ -19,7 +19,11 @@ We compare the contrastive objective to cross-view prediction, finding an advant
 
 **(3) Unsupervised v.s. Supervised**
 
-ResNet-50 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification ( ~63.0% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently).
+ResNet-50 trained with our **unsupervised** CMC objective surpasses **supervisedly** trained AlexNet on ImageNet classification ( ~63.0% v.s. 59.3%). For this first time on ImageNet classification, unsupervised methods are surpassing the classic supervised-AlexNet proposed in 2012 (CPC++ and DIM++ also achieve this milestone concurrently). 
+
+## Updates
+
+Aug 20, 2019 - ResNets on ImageNet have been added.
 
 ## Installation
 
@@ -28,6 +32,8 @@ This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUD
 **Note:** It seems to us that training with Pytorch version >= 1.0 yields slightly worse results. If you find the similar discrepancy and figure out the problem, please report this since we are trying to fix it as well.
 
 ## Training AlexNet/ResNets with CMC on ImageNet
+
+**Note:** For AlexNet, we split across the channel dimension and use each half to encode L and ab. For ResNets, we use a standard ResNet model to encode each view.
 
 NCE flags:
 - `--nce_k`: number of negatives to contrast for each positive. Default: 4096
@@ -98,14 +104,6 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python LinearProbing.py --data_folder path/to/data 
 ```
 
 **Note:** When training linear classifiers on top of ResNets, it's important to use large learning rate, e.g., 30~50. Specifically, change `--model alexnet --learning_rate 0.1 --layer 5` to `--model resnet50 --learning_rate 30 --layer 6`.
-
-<!--
-## Results
-**ImageNet**: we tabulate the top-1 accuracy (%) of linear probing for different networks trained with CMC on imagenet classification. We also include the supervised AlexNet accuracy for comparison.
-|          |Unpervised AlexNet | Unpervised ResNet-50 | Unpervised ResNet-101  | Supervised AlexNet |
-|----------|:----:|:---:|:---:|:---:|
-| Top-1 | 42.6 | ~63 | ~64  | 59.3|
--->
 
 ## Citation
 
