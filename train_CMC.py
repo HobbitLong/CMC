@@ -17,6 +17,7 @@ from torchvision import transforms
 from dataset import RGB2Lab, ImageFolderInstance
 from util import adjust_learning_rate, AverageMeter
 from models.alexnet import alexnet
+from models.resnet import ResNetV2
 from NCE.NCEAverage import NCEAverage
 from NCE.NCECriterion import NCECriterion
 
@@ -48,7 +49,7 @@ def parse_option():
                         help='path to latest checkpoint (default: none)')
 
     # model definition
-    parser.add_argument('--model', type=str, default='alexnet', choices=['alexnet'])
+    parser.add_argument('--model', type=str, default='alexnet', choices=['alexnet', 'resnet50', 'resnet101'])
     parser.add_argument('--nce_k', type=int, default=4096)
     parser.add_argument('--nce_t', type=float, default=0.07)
     parser.add_argument('--nce_m', type=float, default=0.5)
@@ -58,6 +59,9 @@ def parse_option():
     parser.add_argument('--data_folder', type=str, default=None, help='path to data')
     parser.add_argument('--model_path', type=str, default=None, help='path to save model')
     parser.add_argument('--tb_path', type=str, default=None, help='path to tensorboard')
+
+    # data crop threshold
+    parser.add_argument('--crop_low', type=float, default=0.08, help='low area in crop')
 
     opt = parser.parse_args()
 
@@ -92,7 +96,7 @@ def get_train_loader(args):
     normalize = transforms.Normalize(mean=[(0 + 100) / 2, (-86.183 + 98.233) / 2, (-107.857 + 94.478) / 2],
                                      std=[(100 - 0) / 2, (86.183 + 98.233) / 2, (107.857 + 94.478) / 2])
     train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224, scale=(0.2, 1.)),
+        transforms.RandomResizedCrop(224, scale=(args.crop_low, 1.)),
         transforms.RandomHorizontalFlip(),
         RGB2Lab(),
         transforms.ToTensor(),
@@ -117,6 +121,8 @@ def set_model(args, n_data):
     # set the model
     if args.model == 'alexnet':
         model = alexnet(args.feat_dim)
+    elif args.model.startswith('resnet'):
+        model = ResNetV2(args.model)
     else:
         raise ValueError('model not supported yet {}'.format(args.model))
     contrast = NCEAverage(args.feat_dim, n_data, args.nce_k, args.nce_t, args.nce_m)
@@ -124,7 +130,10 @@ def set_model(args, n_data):
     criterion_ab = NCECriterion(n_data)
 
     if torch.cuda.is_available():
-        model = model.cuda()
+        if torch.cuda.device_count() > 1:
+            model = torch.nn.DataParallel(model).cuda()
+        else:
+            model = model.cuda()
         contrast = contrast.cuda()
         criterion_ab = criterion_ab.cuda()
         criterion_l = criterion_l.cuda()
