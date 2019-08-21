@@ -11,18 +11,11 @@ class alexnet(nn.Module):
         self.l_to_ab = alexnet_half(in_channel=1, feat_dim=feat_dim)
         self.ab_to_l = alexnet_half(in_channel=2, feat_dim=feat_dim)
 
-    def forward(self, x):
+    def forward(self, x, layer=8):
         l, ab = torch.split(x, [1, 2], dim=1)
-        feat_l = self.l_to_ab(l)
-        feat_ab = self.ab_to_l(ab)
+        feat_l = self.l_to_ab(l, layer)
+        feat_ab = self.ab_to_l(ab, layer)
         return feat_l, feat_ab
-
-    def compute_feat(self, x, layer):
-        l, ab = torch.split(x, [1, 2], dim=1)
-        feat_l = self.l_to_ab.compute_feat(l, layer)
-        feat_ab = self.ab_to_l.compute_feat(ab, layer)
-        feat = torch.cat((feat_l, feat_ab), dim=1)
-        return feat
 
 
 class alexnet_half(nn.Module):
@@ -71,20 +64,7 @@ class alexnet_half(nn.Module):
         )
         self.l2norm = Normalize(2)
 
-    def forward(self, x):
-        x = self.conv_block_1(x)
-        x = self.conv_block_2(x)
-        x = self.conv_block_3(x)
-        x = self.conv_block_4(x)
-        x = self.conv_block_5(x)
-        x = x.view(x.shape[0], -1)
-        x = self.fc6(x)
-        x = self.fc7(x)
-        x = self.fc8(x)
-        x = self.l2norm(x)
-        return x
-
-    def compute_feat(self, x, layer):
+    def forward(self, x, layer):
         if layer <= 0:
             return x
         x = self.conv_block_1(x)

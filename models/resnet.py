@@ -150,25 +150,7 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.bn1(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
-
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
-
-        x = self.avgpool(x)
-        x = x.view(x.size(0), -1)
-        x = self.fc(x)
-        x = self.l2norm(x)
-
-        return x
-
-    def compute_feat(self, x, layer):
+    def forward(self, x, layer):
         if layer <= 0:
             return x
 
@@ -276,18 +258,11 @@ class ResNetV1(nn.Module):
         else:
             raise NotImplementedError('model {} is not implemented'.format(name))
 
-    def forward(self, x):
+    def forward(self, x, layer=7):
         l, ab = torch.split(x, [1, 2], dim=1)
-        feat_l = self.l_to_ab(l)
-        feat_ab = self.ab_to_l(ab)
+        feat_l = self.l_to_ab(l, layer)
+        feat_ab = self.ab_to_l(ab, layer)
         return feat_l, feat_ab
-
-    def compute_feat(self, x, layer):
-        l, ab = torch.split(x, [1, 2], dim=1)
-        feat_l = self.l_to_ab.compute_feat(l, layer)
-        feat_ab = self.ab_to_l.compute_feat(ab, layer)
-        feat = torch.cat((feat_l, feat_ab), dim=1)
-        return feat
 
 
 class ResNetV2(nn.Module):
@@ -305,15 +280,8 @@ class ResNetV2(nn.Module):
         else:
             raise NotImplementedError('model {} is not implemented'.format(name))
 
-    def forward(self, x):
+    def forward(self, x, layer=7):
         l, ab = torch.split(x, [1, 2], dim=1)
-        feat_l = self.l_to_ab(l)
-        feat_ab = self.ab_to_l(ab)
+        feat_l = self.l_to_ab(l, layer)
+        feat_ab = self.ab_to_l(ab, layer)
         return feat_l, feat_ab
-
-    def compute_feat(self, x, layer):
-        l, ab = torch.split(x, [1, 2], dim=1)
-        feat_l = self.l_to_ab.compute_feat(l, layer)
-        feat_ab = self.ab_to_l.compute_feat(ab, layer)
-        feat = torch.cat((feat_l, feat_ab), dim=1)
-        return feat
