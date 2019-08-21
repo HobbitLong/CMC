@@ -246,8 +246,9 @@ def train(epoch, train_loader, model, classifier, criterion, optimizer, opt):
 
         # ===================forward=====================
         with torch.no_grad():
-            feat = model(input, opt.layer)
-            feat = feat.detach()
+            feat_l, feat_ab = model(input, opt.layer)
+            feat = torch.cat((feat_l, feat_ab), dim=1)
+            feat = feat.contiguous().detach()
 
         output = classifier(feat)
         loss = criterion(output, target)
@@ -307,7 +308,9 @@ def validate(val_loader, model, classifier, criterion, opt):
             target = target.cuda(opt.gpu, non_blocking=True)
 
             # compute output
-            feat = model(input, opt.layer)
+            feat_l, feat_ab = model(input, opt.layer)
+            feat = torch.cat((feat_l, feat_ab), dim=1)
+            feat = feat.contiguous().detach()
             output = classifier(feat)
             loss = criterion(output, target)
 
