@@ -1,3 +1,5 @@
+Note: this repo currently has not covered the most recent `ResNet50x2` model in the `Table2` of our arXiv paper. I will add it in a couple of weeks, once I succeed a bunch of recent deadlines.
+
 
 ## Contrastive Multiview Coding
 
