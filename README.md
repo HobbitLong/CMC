@@ -110,7 +110,7 @@ Note:
 
 ## Momentum Contrast and Instance Discrimination
 
-I have implemented and tested MoCo and InsDis on a ImageNet100 subset:
+I have implemented and tested MoCo and InsDis on a ImageNet100 subset (but the code allows one to train on full ImageNet simply by setting the flag `--dataset imagenet`):
 
 The pre-training stage:
 
