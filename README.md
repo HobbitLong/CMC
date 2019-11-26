@@ -1,3 +1,10 @@
+Unofficial implementation:
+- MoCo: Momentum Contrast for Unsupervised Visual Representation Learning ([Paper](https://arxiv.org/abs/1911.05722)) 
+- InsDis: Unsupervised Feature Learning via Non-Parametric Instance-level Discrimination ([Paper](https://arxiv.org/abs/1805.01978))
+
+Official implementation:
+- CMC: Contrastive Multiview Coding ([Paper](http://arxiv.org/abs/1906.05849))
+
 ## Contrastive Multiview Coding
 
 This repo covers the implementation for CMC (as well as Momentum Contrast and Instance Discrimination), which learns representations from multiview data in a self-supervised way (by multiview, we mean multiple sensory, multiple modal data, or literally multiple viewpoint data. It's flexible to define what is a "view"):
@@ -24,9 +31,7 @@ Several ResNets trained with our **unsupervised** CMC objective surpasses **supe
 
 Aug 20, 2019 - ResNets on ImageNet have been added.
 
-Nov 26, 2019 - New results updated. Implementation for the following two papers added:
-- MoCo: Momentum Contrast for Unsupervised Visual Representation Learning ([Paper](https://arxiv.org/abs/1911.05722)) 
-- InsDis: Unsupervised Feature Learning via Non-Parametric Instance-level Discrimination ([Paper](https://arxiv.org/abs/1805.01978))
+Nov 26, 2019 - New results updated. Implementation of **MoCo** and **InsDis** added:
 
 ## Installation
 
@@ -105,9 +110,7 @@ Note:
 
 ## Momentum Contrast and Instance Discrimination
 
-I have implemented and tested the following two methods on a ImageNet100 subset:
-- MoCo: Momentum Contrast for Unsupervised Visual Representation Learning ([Paper](https://arxiv.org/abs/1911.05722)) 
-- InsDis: Unsupervised Feature Learning via Non-Parametric Instance-level Discrimination ([Paper](https://arxiv.org/abs/1805.01978))
+I have implemented and tested MoCo and InsDis on a ImageNet100 subset:
 
 The pre-training stage:
 
@@ -129,7 +132,7 @@ The linear evaluation stage:
      --model_path /path/to/model --num_workers 24 --learning_rate 10
     ```
   
-The comparison of `CMC` (using YCbCr), `MoCo` and `InsDIS` on my ImageNet100 subset, are tabulated as below:
+The comparison of `CMC` (using YCbCr), `MoCo` and `InsDIS` on my ImageNet100 subset, is tabulated as below:
 
 |          |Arch | #Params(M) | Loss  | #Negative  | Accuracy |
 |----------|:----:|:---:|:---:|:---:|:---:|
