@@ -4,6 +4,16 @@ import torch
 import torch.nn as nn
 
 
+class MyAlexNetCMC(nn.Module):
+    def __init__(self, feat_dim=128):
+        super(MyAlexNetCMC, self).__init__()
+        self.encoder = alexnet(feat_dim=feat_dim)
+        self.encoder = nn.DataParallel(self.encoder)
+
+    def forward(self, x, layer=8):
+        return self.encoder(x, layer)
+
+
 class alexnet(nn.Module):
     def __init__(self, feat_dim=128):
         super(alexnet, self).__init__()

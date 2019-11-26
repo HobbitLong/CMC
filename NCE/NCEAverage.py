@@ -6,13 +6,14 @@ import math
 
 class NCEAverage(nn.Module):
 
-    def __init__(self, inputSize, outputSize, K, T=0.07, momentum=0.5):
+    def __init__(self, inputSize, outputSize, K, T=0.07, momentum=0.5, use_softmax=False):
         super(NCEAverage, self).__init__()
         self.nLem = outputSize
         self.unigrams = torch.ones(self.nLem)
         self.multinomial = AliasMethod(self.unigrams)
         self.multinomial.cuda()
         self.K = K
+        self.use_softmax = use_softmax
 
         self.register_buffer('params', torch.tensor([K, T, -1, -1, momentum]))
         stdv = 1. / math.sqrt(inputSize / 3)
@@ -38,27 +39,32 @@ class NCEAverage(nn.Module):
         weight_l = torch.index_select(self.memory_l, 0, idx.view(-1)).detach()
         weight_l = weight_l.view(batchSize, K + 1, inputSize)
         out_ab = torch.bmm(weight_l, ab.view(batchSize, inputSize, 1))
-        out_ab = torch.exp(torch.div(out_ab, T))
         # sample
         weight_ab = torch.index_select(self.memory_ab, 0, idx.view(-1)).detach()
         weight_ab = weight_ab.view(batchSize, K + 1, inputSize)
         out_l = torch.bmm(weight_ab, l.view(batchSize, inputSize, 1))
-        out_l = torch.exp(torch.div(out_l, T))
 
-        # set Z_0 if haven't been set yet,
-        # Z_0 is used as a constant approximation of Z, to scale the probs
-        if Z_l < 0:
-            self.params[2] = out_l.mean() * outputSize
-            Z_l = self.params[2].clone().detach().item()
-            print("normalization constant Z_l is set to {:.1f}".format(Z_l))
-        if Z_ab < 0:
-            self.params[3] = out_ab.mean() * outputSize
-            Z_ab = self.params[3].clone().detach().item()
-            print("normalization constant Z_ab is set to {:.1f}".format(Z_ab))
-
-        # compute out_l, out_ab
-        out_l = torch.div(out_l, Z_l).contiguous()
-        out_ab = torch.div(out_ab, Z_ab).contiguous()
+        if self.use_softmax:
+            out_ab = torch.div(out_ab, T)
+            out_l = torch.div(out_l, T)
+            out_l = out_l.contiguous()
+            out_ab = out_ab.contiguous()
+        else:
+            out_ab = torch.exp(torch.div(out_ab, T))
+            out_l = torch.exp(torch.div(out_l, T))
+            # set Z_0 if haven't been set yet,
+            # Z_0 is used as a constant approximation of Z, to scale the probs
+            if Z_l < 0:
+                self.params[2] = out_l.mean() * outputSize
+                Z_l = self.params[2].clone().detach().item()
+                print("normalization constant Z_l is set to {:.1f}".format(Z_l))
+            if Z_ab < 0:
+                self.params[3] = out_ab.mean() * outputSize
+                Z_ab = self.params[3].clone().detach().item()
+                print("normalization constant Z_ab is set to {:.1f}".format(Z_ab))
+            # compute out_l, out_ab
+            out_l = torch.div(out_l, Z_l).contiguous()
+            out_ab = torch.div(out_ab, Z_ab).contiguous()
 
         # # update memory
         with torch.no_grad():

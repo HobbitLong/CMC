@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import math
+import numpy as np
 import torch.utils.model_zoo as model_zoo
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
@@ -16,7 +17,7 @@ model_urls = {
 
 
 def conv3x3(in_planes, out_planes, stride=1):
-    "3x3 convolution with padding"
+    """3x3 convolution with padding"""
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
                      padding=1, bias=False)
 
@@ -106,7 +107,7 @@ class Bottleneck(nn.Module):
 
 class ResNet(nn.Module):
 
-    def __init__(self, block, layers, low_dim=128, in_channel=3, is_half=False):
+    def __init__(self, block, layers, low_dim=128, in_channel=3, width=1):
         self.inplanes = 64
         super(ResNet, self).__init__()
         self.conv1 = nn.Conv2d(in_channel, 64, kernel_size=7, stride=2, padding=3,
@@ -114,7 +115,7 @@ class ResNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
 
-        self.base = 32 if is_half else 64
+        self.base = int(64 * width)
 
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, self.base, layers[0])
@@ -150,38 +151,31 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self, x, layer):
+    def forward(self, x, layer=7):
         if layer <= 0:
             return x
-
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)
         if layer == 1:
             return x
-
         x = self.layer1(x)
         if layer == 2:
             return x
-
         x = self.layer2(x)
         if layer == 3:
             return x
-
         x = self.layer3(x)
         if layer == 4:
             return x
-
         x = self.layer4(x)
         if layer == 5:
             return x
-
         x = self.avgpool(x)
         x = x.view(x.size(0), -1)
         if layer == 6:
             return x
-
         x = self.fc(x)
         x = self.l2norm(x)
 
@@ -243,18 +237,29 @@ def resnet152(pretrained=False, **kwargs):
     return model
 
 
+class InsResNet50(nn.Module):
+    """Encoder for instance discrimination and MoCo"""
+    def __init__(self, width=1):
+        super(InsResNet50, self).__init__()
+        self.encoder = resnet50(width=width)
+        self.encoder = nn.DataParallel(self.encoder)
+
+    def forward(self, x, layer=7):
+        return self.encoder(x, layer)
+
+
 class ResNetV1(nn.Module):
     def __init__(self, name='resnet50'):
         super(ResNetV1, self).__init__()
         if name == 'resnet50':
-            self.l_to_ab = resnet50(in_channel=1, is_half=True)
-            self.ab_to_l = resnet50(in_channel=2, is_half=True)
+            self.l_to_ab = resnet50(in_channel=1, width=0.5)
+            self.ab_to_l = resnet50(in_channel=2, width=0.5)
         elif name == 'resnet18':
-            self.l_to_ab = resnet18(in_channel=1, is_half=True)
-            self.ab_to_l = resnet18(in_channel=2, is_half=True)
+            self.l_to_ab = resnet18(in_channel=1, width=0.5)
+            self.ab_to_l = resnet18(in_channel=2, width=0.5)
         elif name == 'resnet101':
-            self.l_to_ab = resnet101(in_channel=1, is_half=True)
-            self.ab_to_l = resnet101(in_channel=2, is_half=True)
+            self.l_to_ab = resnet101(in_channel=1, width=0.5)
+            self.ab_to_l = resnet101(in_channel=2, width=0.5)
         else:
             raise NotImplementedError('model {} is not implemented'.format(name))
 
@@ -269,14 +274,14 @@ class ResNetV2(nn.Module):
     def __init__(self, name='resnet50'):
         super(ResNetV2, self).__init__()
         if name == 'resnet50':
-            self.l_to_ab = resnet50(in_channel=1)
-            self.ab_to_l = resnet50(in_channel=2)
+            self.l_to_ab = resnet50(in_channel=1, width=1)
+            self.ab_to_l = resnet50(in_channel=2, width=1)
         elif name == 'resnet18':
-            self.l_to_ab = resnet18(in_channel=1)
-            self.ab_to_l = resnet18(in_channel=2)
+            self.l_to_ab = resnet18(in_channel=1, width=1)
+            self.ab_to_l = resnet18(in_channel=2, width=1)
         elif name == 'resnet101':
-            self.l_to_ab = resnet101(in_channel=1)
-            self.ab_to_l = resnet101(in_channel=2)
+            self.l_to_ab = resnet101(in_channel=1, width=1)
+            self.ab_to_l = resnet101(in_channel=2, width=1)
         else:
             raise NotImplementedError('model {} is not implemented'.format(name))
 
@@ -285,3 +290,43 @@ class ResNetV2(nn.Module):
         feat_l = self.l_to_ab(l, layer)
         feat_ab = self.ab_to_l(ab, layer)
         return feat_l, feat_ab
+
+
+class ResNetV3(nn.Module):
+    def __init__(self, name='resnet50'):
+        super(ResNetV3, self).__init__()
+        if name == 'resnet50':
+            self.l_to_ab = resnet50(in_channel=1, width=2)
+            self.ab_to_l = resnet50(in_channel=2, width=2)
+        elif name == 'resnet18':
+            self.l_to_ab = resnet18(in_channel=1, width=2)
+            self.ab_to_l = resnet18(in_channel=2, width=2)
+        elif name == 'resnet101':
+            self.l_to_ab = resnet101(in_channel=1, width=2)
+            self.ab_to_l = resnet101(in_channel=2, width=2)
+        else:
+            raise NotImplementedError('model {} is not implemented'.format(name))
+
+    def forward(self, x, layer=7):
+        l, ab = torch.split(x, [1, 2], dim=1)
+        feat_l = self.l_to_ab(l, layer)
+        feat_ab = self.ab_to_l(ab, layer)
+        return feat_l, feat_ab
+
+
+class MyResNetsCMC(nn.Module):
+    def __init__(self, name='resnet50v1'):
+        super(MyResNetsCMC, self).__init__()
+        if name.endswith('v1'):
+            self.encoder = ResNetV1(name[:-2])
+        elif name.endswith('v2'):
+            self.encoder = ResNetV2(name[:-2])
+        elif name.endswith('v3'):
+            self.encoder = ResNetV3(name[:-2])
+        else:
+            raise NotImplementedError('model not support: {}'.format(name))
+
+        self.encoder = nn.DataParallel(self.encoder)
+
+    def forward(self, x, layer=7):
+        return self.encoder(x, layer)

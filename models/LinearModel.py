@@ -54,32 +54,32 @@ class LinearClassifierAlexNet(nn.Module):
         return self.classifier(x)
 
 
-class LinearClassifierResNetV2(nn.Module):
-    def __init__(self, layer=6, n_label=1000, pool_type='avg'):
-        super(LinearClassifierResNetV2, self).__init__()
+class LinearClassifierResNet(nn.Module):
+    def __init__(self, layer=6, n_label=1000, pool_type='avg', width=1):
+        super(LinearClassifierResNet, self).__init__()
         if layer == 1:
             pool_size = 8
-            nChannels = 128 * 2
+            nChannels = 128 * width
             pool = pool_type
         elif layer == 2:
             pool_size = 6
-            nChannels = 256 * 2
+            nChannels = 256 * width
             pool = pool_type
         elif layer == 3:
             pool_size = 4
-            nChannels = 512 * 2
+            nChannels = 512 * width
             pool = pool_type
         elif layer == 4:
             pool_size = 3
-            nChannels = 1024 * 2
+            nChannels = 1024 * width
             pool = pool_type
         elif layer == 5:
             pool_size = 7
-            nChannels = 2048 * 2
+            nChannels = 2048 * width
             pool = pool_type
         elif layer == 6:
             pool_size = 1
-            nChannels = 2048 * 2
+            nChannels = 2048 * width
             pool = pool_type
         else:
             raise NotImplementedError('layer not supported: {}'.format(layer))
