@@ -126,7 +126,7 @@ The pre-training stage:
     ```
   
 The linear evaluation stage:
-- For both InsDis and MoCo:
+- For both InsDis and MoCo (lr=10 is better than 30 on this subset, for full imagenet please switch to 30):
     ```
     CUDA_VISIBLE_DEVICES=0 python eval_moco_ins.py --model resnet50 \
      --model_path /path/to/model --num_workers 24 --learning_rate 10
