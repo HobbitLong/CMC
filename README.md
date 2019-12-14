@@ -136,11 +136,11 @@ The comparison of `CMC` (using YCbCr), `MoCo` and `InsDIS` on my ImageNet100 sub
 
 |          |Arch | #Params(M) | Loss  | #Negative  | Accuracy |
 |----------|:----:|:---:|:---:|:---:|:---:|
-|  InsDis | ResNet50 | 24  | NCE  | 16384  |  53.5  |
+|  InsDis | ResNet50 | 24  | NCE  | 16384  |  --  |
 |  InsDis | ResNet50 | 24  | Softmax-CE  | 16384  |  69.1  |
-|  MoCo | ResNet50 | 24  | NCE  | 16384  |  11.6  |
+|  MoCo | ResNet50 | 24  | NCE  | 16384  |  --  |
 |  MoCo | ResNet50 | 24  | Softmax-CE  | 16384  |  73.4  |
-|  CMC | 2xResNet50half | 12  | NCE  | 4096  |  74.5  |
+|  CMC | 2xResNet50half | 12  | NCE  | 4096  |  --  |
 |  CMC | 2xResNet50half | 12  | Softmax-CE  | 4096  |  75.8  |
 
 
