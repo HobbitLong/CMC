@@ -110,7 +110,7 @@ Note:
 - CMC weights are trained with `NCE` loss, `Lab` color space, `4096` negatives and `amp` option. Switching to `softmax-ce` loss, `YCbCr`, `65536` negatives, and turning off `amp` option, are likely to improve the results.
 - `CMC_resnet50v2.pth` and `CMC_resnet50v3.pth` are trained with FastAutoAugment, which improves the downstream accuracy by 0.8~1%. I will update weights without FastAutoAugment once they are available.
 
-InsDis and MoCo are trained using exactly the same hyperparameters as in MoCo (`epochs=200, lr=0.03, lr_decay_epochs=120,160`), but with only 4 GPUs.
+InsDis and MoCo are trained using the same hyperparameters as in MoCo (`epochs=200, lr=0.03, lr_decay_epochs=120,160, weight_decay=1e-4`), but with only 4 GPUs.
 
 |          |Arch | #Params(M) | Loss  | #Negative  | Accuracy(%) | Delta(%) |
 |----------|:----:|:---:|:---:|:---:|:---:|:---:|
