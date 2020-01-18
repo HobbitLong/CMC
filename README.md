@@ -31,7 +31,9 @@ Several ResNets trained with our **unsupervised** CMC objective surpasses **supe
 
 Aug 20, 2019 - ResNets on ImageNet have been added.
 
-Nov 26, 2019 - New results updated. Implementation of **MoCo** and **InsDis** added:
+Nov 26, 2019 - New results updated. Implementation of **MoCo** and **InsDis** added.
+
+Jan 18, 2019 - Weights of **InsDis** and **MoCo** added.
 
 ## Installation
 
@@ -105,8 +107,18 @@ CUDA_VISIBLE_DEVICES=0 python LinearProbing.py --dataset imagenet \
 Pretrained weights can be found in [Dropbox](https://www.dropbox.com/sh/5k4t77mt4011gyr/AABkBvKm2bGNNut0m6bLMK84a?dl=0).
 
 Note: 
-- these weights are trained with `NCE` loss, `Lab` color space, `4096` negatives and `amp` option. Changing to `softmax-ce` loss, `YCbCr`, `65536` negatives, and turning off `amp` option, are likely to further improve the results.
-- `resnet50v2.pth` and `resnet50v3.pth` are trained with FastAutoAugment, which improves the downstream accuracy by 0.8~1%. I have removed this augmentation strategy in the code but need to retrain the networks. I will update the weights once they are available.
+- CMC weights are trained with `NCE` loss, `Lab` color space, `4096` negatives and `amp` option. Switching to `softmax-ce` loss, `YCbCr`, `65536` negatives, and turning off `amp` option, are likely to improve the results.
+- `CMC_resnet50v2.pth` and `CMC_resnet50v3.pth` are trained with FastAutoAugment, which improves the downstream accuracy by 0.8~1%. I will update weights without FastAutoAugment once they are available.
+
+InsDis and MoCo are trained using exactly the same hyperparameters as in MoCo (`epochs=200, lr=0.03, lr_decay_epochs=120,160`), but with only 4 GPUs.
+
+|          |Arch | #Params(M) | Loss  | #Negative  | Accuracy(%) | Delta(%) |
+|----------|:----:|:---:|:---:|:---:|:---:|:---:|
+|  InsDis | ResNet50 | 24  | NCE  | 4096  |  56.5  |   - | 
+|  InsDis | ResNet50 | 24  | Softmax-CE  | 4096  |  57.1  | +0.6 |
+|  InsDis | ResNet50 | 24  | Softmax-CE  | 16384  |  58.5  | +1.4 |
+|  MoCo | ResNet50 | 24  | Softmax-CE  | 16384  |  59.4  | +0.9|
+
 
 ## Momentum Contrast and Instance Discrimination
 
