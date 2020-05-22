@@ -33,7 +33,9 @@ Aug 20, 2019 - ResNets on ImageNet have been added.
 
 Nov 26, 2019 - New results updated. Implementation of **MoCo** and **InsDis** added.
 
-Jan 18, 2019 - Weights of **InsDis** and **MoCo** added.
+Jan 18, 2020 - Weights of **InsDis** and **MoCo** added.
+
+May 22, 2020 - ImageNet-100 list uploaded, see `imagenet100.txt`.
 
 ## Installation
 
