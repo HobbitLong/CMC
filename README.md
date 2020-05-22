@@ -35,7 +35,7 @@ Nov 26, 2019 - New results updated. Implementation of **MoCo** and **InsDis** ad
 
 Jan 18, 2020 - Weights of **InsDis** and **MoCo** added.
 
-May 22, 2020 - ImageNet-100 list uploaded, see `imagenet100.txt`.
+May 22, 2020 - ImageNet-100 list uploaded, see [`imagenet100.txt`](imagenet100.txt).
 
 ## Installation
 
