@@ -1,9 +1,21 @@
+Official implementation:
+- CMC: Contrastive Multiview Coding ([Paper](http://arxiv.org/abs/1906.05849))
+
 Unofficial implementation:
 - MoCo: Momentum Contrast for Unsupervised Visual Representation Learning ([Paper](https://arxiv.org/abs/1911.05722)) 
 - InsDis: Unsupervised Feature Learning via Non-Parametric Instance-level Discrimination ([Paper](https://arxiv.org/abs/1805.01978))
 
-Official implementation:
-- CMC: Contrastive Multiview Coding ([Paper](http://arxiv.org/abs/1906.05849))
+## Citation
+
+If you find this repo useful for your research, please consider citing the paper
+```
+@article{tian2019contrastive,
+  title={Contrastive Multiview Coding},
+  author={Tian, Yonglong and Krishnan, Dilip and Isola, Phillip},
+  journal={arXiv preprint arXiv:1906.05849},
+  year={2019}
+}
+```
 
 ## Contrastive Multiview Coding
 
@@ -158,18 +170,6 @@ The comparison of `CMC` (using YCbCr), `MoCo` and `InsDIS` on my ImageNet100 sub
 |  CMC | 2xResNet50half | 12  | Softmax-CE  | 4096  |  75.8  |
 
 
-## Citation
-
-If you find this repo useful for your research, please consider citing the paper
-
-```
-@article{tian2019contrastive,
-  title={Contrastive Multiview Coding},
-  author={Tian, Yonglong and Krishnan, Dilip and Isola, Phillip},
-  journal={arXiv preprint arXiv:1906.05849},
-  year={2019}
-}
-```
 For any questions, please contact Yonglong Tian (yonglong@mit.edu).
 
 ## Acknowledgements
